@@ -1,0 +1,12 @@
+.dataBtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.dataBtn p {
+  text-align: center;
+  margin-bottom: 0;
+  margin: 0 24px 0 0;
+}
