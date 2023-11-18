@@ -2,11 +2,11 @@ import React from "react";
 import TemplateTab from "../components/Template/Tab/TemplateTab";
 import { TabsProps } from "antd";
 import CategoryCreate from "../components/Category/CategoryCreate";
-import CategoryList from "../components/Category/CategoryList";
 import ProductCreate from "../components/Product/ProductCreate";
-import ProductList from "../components/Product/ProductList";
 import { ICategory } from "../models/category";
 import { useLocation } from "react-router-dom";
+import CategoryTableAdmin from "../components/Category/CategoryTableAdmin";
+import ProductTableAdmin from "../components/Product/ProductTableAdmin";
 
 const AdminPage: React.FC = () => {
   const location = useLocation();
@@ -31,12 +31,12 @@ const AdminPage: React.FC = () => {
     {
       key: "3",
       label: "Список категорий",
-      children: <CategoryList />,
+      children: <CategoryTableAdmin />,
     },
     {
       key: "4",
       label: "Список товаров",
-      children: <ProductList />,
+      children: <ProductTableAdmin />,
     },
   ];
   return <TemplateTab items={items} defaultActiveKey={defaultActiveKey} />;

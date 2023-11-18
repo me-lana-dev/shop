@@ -34,7 +34,7 @@ const CategoryEdit: React.FC = () => {
   //console.log("CategoryEdit error", error, "isLoading", isLoading);
   const { fetchCategories, editCategory } = useActions();
   const [showAlert, setShowAlert] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
   const currentItemMenu = pathname.trim().split("/");
   const [isAuth, setIsAuth] = useState(false);
 
@@ -68,26 +68,16 @@ const CategoryEdit: React.FC = () => {
         <Row justify="start" align="stretch" gutter={[16, 24]}>
           <Card style={{ width: "100%" }}>
             <div className="headerPage">
-              {isAuth && (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    goBack("/admin", { state: { defaultActiveKey: "3" } })
-                  }
-                >
-                  Вернуться к разделу "Список категорий"
-                </Button>
-              )}
-              {!isAuth && (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    goBack("/onlinestore", { state: { defaultActiveKey: "1" } })
-                  }
-                >
-                  Вернуться к разделу "Список категорий"
-                </Button>
-              )}
+              <Button
+                type="primary"
+                onClick={() =>
+                  goBack(`${state.path}`, {
+                    state: { defaultActiveKey: `${state.defaultActiveKey}` },
+                  })
+                }
+              >
+                Вернуться назад
+              </Button>
 
               <Divider type="vertical" />
               <h2 style={{ textAlign: "left", margin: "0 0 0 20px" }}>

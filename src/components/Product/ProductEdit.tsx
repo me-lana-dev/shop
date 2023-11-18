@@ -33,6 +33,7 @@ const SignupSchema = Yup.object().shape({
 
 const ProductEdit: React.FC = () => {
   const goBack = useNavigate();
+  console.log(goBack);
   const { id } = useParams();
   const { error, isLoading, products } = useTypedSelector(
     (state) => state.products
@@ -40,10 +41,12 @@ const ProductEdit: React.FC = () => {
   const { fetchProducts, editProduct } = useActions();
   const [showAlert, setShowAlert] = useState(false);
   const { pathname, state } = useLocation();
+
   const currentItemMenu = pathname.trim().split("/");
   const [isAuth, setIsAuth] = useState(false);
 
-  console.log("state", state);
+  console.log("state", pathname, state);
+  console.log("goback", goBack);
 
   useEffect(() => {
     if (currentItemMenu[1] === "admin") {
@@ -74,26 +77,16 @@ const ProductEdit: React.FC = () => {
         <Row justify="start" align="stretch" gutter={[16, 24]}>
           <Card style={{ width: "100%" }}>
             <div className="headerPage">
-              {isAuth && (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    goBack("/admin", { state: { defaultActiveKey: "4" } })
-                  }
-                >
-                  Вернуться к разделу "Список товаров"
-                </Button>
-              )}
-              {!isAuth && (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    goBack("/onlinestore", { state: { defaultActiveKey: "2" } })
-                  }
-                >
-                  Вернуться к разделу "Список товаров"
-                </Button>
-              )}
+              <Button
+                type="primary"
+                onClick={() =>
+                  goBack(`${state.path}`, {
+                    state: { defaultActiveKey: `${state.defaultActiveKey}` },
+                  })
+                }
+              >
+                Вернуться назад
+              </Button>
 
               <Divider type="vertical" />
               <h2 style={{ textAlign: "left", margin: "0 0 0 20px" }}>
@@ -127,7 +120,7 @@ const ProductEdit: React.FC = () => {
                 />
               )}
               {currentProduct.map((product: IProduct) => (
-                <ProductView product={product} />
+                <ProductView key={product.id} product={product} />
               ))}
             </Card>
 
