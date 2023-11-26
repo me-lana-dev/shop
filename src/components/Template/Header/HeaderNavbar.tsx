@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuProps, Menu } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CartTotalIcon from "../../Cart/CartTotalIcon";
 
 const HeaderNavbar: React.FC = () => {
@@ -27,6 +27,25 @@ const HeaderNavbar: React.FC = () => {
     router(e.key);
     setCurrent(e.key);
   };
+
+  const { pathname } = useLocation();
+  const changeCurrentMenuItem = (pathname: string) => {
+    if (pathname === "/") {
+      return "onlinestore";
+    }
+    const last = pathname.indexOf("/", 1);
+
+    if (last === -1) {
+      return pathname.slice(1);
+    } else {
+      return pathname.slice(1, last);
+    }
+  };
+
+  useEffect(() => {
+    setCurrent(changeCurrentMenuItem(pathname));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <div className="menu__wrap">

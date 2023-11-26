@@ -16,9 +16,9 @@ const SignupSchema = Yup.object().shape({
   //   label: Yup.string().required("label is required"),
   //   value: Yup.string().required("value is required"),
   // }),
-  price: Yup.string()
-    .min(1, "Too Short!")
-    .max(6, "Too Long!")
+  price: Yup.number()
+    .min(0, "Too Few!")
+    .max(100000, "Too Much!")
     .required("Required"),
   imageUrl: Yup.string()
     .min(2, "Too Short!")
@@ -90,7 +90,7 @@ const ProductCreate: React.FC<ProductCreateProps> = () => {
               initialValues={{
                 name: "",
                 category: {} as ICategory,
-                price: "",
+                price: 0,
                 imageUrl: "",
                 description: "",
               }}

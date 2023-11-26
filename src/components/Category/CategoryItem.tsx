@@ -26,7 +26,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category, remove }) => {
         </div>
 
         <Link
-          to={"/onlinestore/category/" + category.id}
+          to={"/onlinestore/category/" + category.slug}
           state={{ defaultActiveKey: "1", path: "/onlinestore" }}
           className="ant-card-link"
         >

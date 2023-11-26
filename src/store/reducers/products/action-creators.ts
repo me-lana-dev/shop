@@ -15,8 +15,10 @@ export const ProductsActionCreators = {
   }),
   fetchProducts: () => async (dispatch: AppDispatch) => {
     try {
+      dispatch(ProductsActionCreators.setIsLoading(true));
       const response = ProductsService.getProducts();
       dispatch(ProductsActionCreators.setProducts(await response));
+      dispatch(ProductsActionCreators.setIsLoading(false));
     } catch (e) {
       dispatch(
         ProductsActionCreators.setError(

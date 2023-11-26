@@ -173,7 +173,14 @@ const ProductTableAdmin: React.FC = () => {
                           type="primary"
                           size="large"
                           icon={<EditOutlined />}
-                          onClick={() => deleteProduct(record.id)}
+                          onClick={() =>
+                            linkProductCard("/admin/editproduct/" + record.id, {
+                              state: {
+                                defaultActiveKey: "4",
+                                path: "/admin",
+                              },
+                            })
+                          }
                         />
                       </Tooltip>
                       <Tooltip title="Удалить">

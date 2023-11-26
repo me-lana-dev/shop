@@ -16,14 +16,12 @@ const ProductView: React.FC<ProductViewProps> = ({ product }) => {
   const [loadingBuy, setLoadingsBuy] = useState(false);
   const [minMaxCount] = useState({ min: 1, max: 10 });
   const [buyCount, setBuyCount] = useState(minMaxCount.min);
-  const [sumTotal, setSumTotal] = useState(
-    parseInt(product.price.replaceAll(" ", ""))
-  );
+  const [sumTotal, setSumTotal] = useState(product.price);
 
   const changeCount = (value: number) => {
     console.log("changeCount", value);
     setBuyCount(value);
-    const sum = value * parseInt(product.price.replaceAll(" ", ""));
+    const sum = value * product.price;
     setSumTotal(sum);
   };
 
@@ -31,13 +29,13 @@ const ProductView: React.FC<ProductViewProps> = ({ product }) => {
     //const [newData] = products.filter((item) => item.id === id);
     //console.log(product, buyCount);
 
-    const sum = buyCount * parseInt(product.price.replaceAll(" ", ""));
+    const sum = buyCount * product.price;
 
     const newCartItem = {
       id: Date.now(),
       idProduct: product.id,
       name: product.name,
-      price: Number(product.price.replaceAll(" ", "")),
+      price: product.price,
       imageUrl: product.imageUrl,
       count: buyCount,
       sum: sum,

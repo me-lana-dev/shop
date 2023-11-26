@@ -33,7 +33,6 @@ const SignupSchema = Yup.object().shape({
 
 const ProductEdit: React.FC = () => {
   const goBack = useNavigate();
-  console.log(goBack);
   const { id } = useParams();
   const { error, isLoading, products } = useTypedSelector(
     (state) => state.products
@@ -137,7 +136,10 @@ const ProductEdit: React.FC = () => {
                   validationSchema={SignupSchema}
                   onSubmit={(values, actions) => {
                     const newProduct = [...restProducts, { ...values }];
-                    editProduct(newProduct);
+                    const sortedNewProduct = [...newProduct].sort(
+                      (a, b) => a.id - b.id
+                    );
+                    editProduct(sortedNewProduct);
                     setShowAlert(true);
                     setTimeout(() => {
                       setShowAlert(false);

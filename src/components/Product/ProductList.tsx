@@ -26,13 +26,13 @@ const ProductList: React.FC = () => {
     const [newData] = products.filter((item) => item.id === id);
     console.log(newData);
 
-    const sum = 1 * parseInt(newData.price.replaceAll(" ", ""));
+    const sum = 1 * newData.price;
 
     const newCartItem = {
       id: Date.now(),
       idProduct: newData.id,
       name: newData.name,
-      price: Number(newData.price.replaceAll(" ", "")),
+      price: newData.price,
       imageUrl: newData.imageUrl,
       count: 1,
       sum: sum,

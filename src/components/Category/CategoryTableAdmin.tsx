@@ -20,7 +20,7 @@ const CategoryTableAdmin: React.FC = () => {
   const { fetchCategories, removeCategory } = useActions();
   const { categories } = useTypedSelector((state) => state.categories);
   const [loadingDelete, setLoadingsDelete] = useState<boolean[]>([]);
-  const linkProductCard = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
@@ -107,7 +107,7 @@ const CategoryTableAdmin: React.FC = () => {
                   render={(_: any, record: DataType) => (
                     <Space size="middle">
                       <Link
-                        to={"/onlinestore/category/" + record.id}
+                        to={"/onlinestore/category/" + record.slug}
                         state={{ defaultActiveKey: "3", path: "/admin" }}
                       >
                         <Image
@@ -132,7 +132,7 @@ const CategoryTableAdmin: React.FC = () => {
                   width={"200px"}
                   render={(_: any, record: DataType) => (
                     <Link
-                      to={"/onlinestore/category/" + record.id}
+                      to={"/onlinestore/category/" + record.slug}
                       state={{ defaultActiveKey: "3", path: "/admin" }}
                     >
                       {record.name}
@@ -158,15 +158,12 @@ const CategoryTableAdmin: React.FC = () => {
                           size="large"
                           icon={<EyeOutlined />}
                           onClick={() =>
-                            linkProductCard(
-                              "/onlinestore/category/" + record.id,
-                              {
-                                state: {
-                                  defaultActiveKey: "3",
-                                  path: "/admin",
-                                },
-                              }
-                            )
+                            navigate("/onlinestore/category/" + record.slug, {
+                              state: {
+                                defaultActiveKey: "3",
+                                path: "/admin",
+                              },
+                            })
                           }
                         />
                       </Tooltip>
@@ -175,7 +172,14 @@ const CategoryTableAdmin: React.FC = () => {
                           type="primary"
                           size="large"
                           icon={<EditOutlined />}
-                          onClick={() => deleteCategory(record.id)}
+                          onClick={() =>
+                            navigate("/admin/editcategory/" + record.slug, {
+                              state: {
+                                defaultActiveKey: "3",
+                                path: "/admin",
+                              },
+                            })
+                          }
                         />
                       </Tooltip>
                       <Tooltip title="Удалить">

@@ -22,7 +22,7 @@ const CartCounter: React.FC<CartCounterProps> = ({
     increment: false,
   });
 
-  console.log("valueDefault", valueDefault, "value", value);
+  //console.log("valueDefault", valueDefault, "value", value);
 
   useEffect(() => {
     min === max

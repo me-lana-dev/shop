@@ -44,7 +44,7 @@ const CartTotal: React.FC = () => {
       style={{
         width: "100%",
         height: "100%",
-        background: "#fafafa",
+        background: "#f0f0f0",
         border: "none",
       }}
     >

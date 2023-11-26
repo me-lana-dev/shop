@@ -24,7 +24,7 @@ const CartList: React.FC = () => {
   const { Column } = Table;
   const [loadingDelete, setLoadingsDelete] = useState<boolean[]>([]);
 
-  console.log("cart", cart);
+  //console.log("cart", cart);
 
   const handleDelete = (id: React.Key) => {
     const newData = cart.filter((item) => item.id !== id);
@@ -148,6 +148,7 @@ const CartList: React.FC = () => {
                           <Space size="middle">
                             <Link
                               to={"/onlinestore/product/" + record.idProduct}
+                              state={{ defaultActiveKey: "2", path: "/cart" }}
                             >
                               <Image
                                 width={50}
@@ -169,7 +170,10 @@ const CartList: React.FC = () => {
                         dataIndex="name"
                         key="name"
                         render={(_: any, record: DataType) => (
-                          <Link to={"/onlinestore/product/" + record.idProduct}>
+                          <Link
+                            to={"/onlinestore/product/" + record.idProduct}
+                            state={{ defaultActiveKey: "2", path: "/cart" }}
+                          >
                             {record.name}
                           </Link>
                         )}
