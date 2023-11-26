@@ -39,24 +39,10 @@ const ProductEdit: React.FC = () => {
   );
   const { fetchProducts, editProduct } = useActions();
   const [showAlert, setShowAlert] = useState(false);
-  const { pathname, state } = useLocation();
-
-  const currentItemMenu = pathname.trim().split("/");
-  const [isAuth, setIsAuth] = useState(false);
-
-  console.log("state", pathname, state);
-  console.log("goback", goBack);
-
-  useEffect(() => {
-    if (currentItemMenu[1] === "admin") {
-      setIsAuth(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { state } = useLocation();
 
   useEffect(() => {
     fetchProducts();
-    // fetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -123,49 +109,43 @@ const ProductEdit: React.FC = () => {
               ))}
             </Card>
 
-            {isAuth && (
-              <>
-                {isLoading && (
-                  <div className="form-spin">
-                    <Spin size="large" />
+            {isLoading && (
+              <div className="form-spin">
+                <Spin size="large" />
+              </div>
+            )}
+            <Divider plain>Редактировать</Divider>
+            <Formik
+              initialValues={currentProduct[0]}
+              validationSchema={SignupSchema}
+              onSubmit={(values, actions) => {
+                const newProduct = [...restProducts, { ...values }];
+                const sortedNewProduct = [...newProduct].sort(
+                  (a, b) => a.id - b.id
+                );
+                editProduct(sortedNewProduct);
+                setShowAlert(true);
+                setTimeout(() => {
+                  setShowAlert(false);
+                }, 6000);
+              }}
+            >
+              {(props) => (
+                <Form className="form-grid">
+                  <div
+                    className={`form-group ${
+                      props.errors.name && props.touched.name ? "has-error" : ""
+                    }`}
+                  >
+                    <label htmlFor="name" className="form-label">
+                      Название товара
+                    </label>
+                    {props.errors.name && props.touched.name ? (
+                      <span className="form-error">{props.errors.name}</span>
+                    ) : null}
+                    <Field name="name" id="name" className="form-control" />
                   </div>
-                )}
-                <Divider plain>Редактировать</Divider>
-                <Formik
-                  initialValues={currentProduct[0]}
-                  validationSchema={SignupSchema}
-                  onSubmit={(values, actions) => {
-                    const newProduct = [...restProducts, { ...values }];
-                    const sortedNewProduct = [...newProduct].sort(
-                      (a, b) => a.id - b.id
-                    );
-                    editProduct(sortedNewProduct);
-                    setShowAlert(true);
-                    setTimeout(() => {
-                      setShowAlert(false);
-                    }, 6000);
-                  }}
-                >
-                  {(props) => (
-                    <Form className="form-grid">
-                      <div
-                        className={`form-group ${
-                          props.errors.name && props.touched.name
-                            ? "has-error"
-                            : ""
-                        }`}
-                      >
-                        <label htmlFor="name" className="form-label">
-                          Название товара
-                        </label>
-                        {props.errors.name && props.touched.name ? (
-                          <span className="form-error">
-                            {props.errors.name}
-                          </span>
-                        ) : null}
-                        <Field name="name" id="name" className="form-control" />
-                      </div>
-                      {/* <div
+                  {/* <div
                         className={`form-group ${
                           props.errors.category && props.touched.category
                             ? "has-error"
@@ -195,84 +175,75 @@ const ProductEdit: React.FC = () => {
                           ))} 
                         </Field>
                       </div> */}
-                      <div
-                        className={`form-group ${
-                          props.errors.price && props.touched.price
-                            ? "has-error"
-                            : ""
-                        }`}
-                      >
-                        <label htmlFor="price" className="form-label">
-                          Цена товара:
-                        </label>
-                        {props.errors.price && props.touched.price ? (
-                          <span className="form-error">
-                            {props.errors.price}
-                          </span>
-                        ) : null}
-                        <Field
-                          name="price"
-                          id="price"
-                          className="form-control"
-                        />
-                      </div>
-                      <div
-                        className={`form-group ${
-                          props.errors.imageUrl && props.touched.imageUrl
-                            ? "has-error"
-                            : ""
-                        }`}
-                      >
-                        <label htmlFor="imageUrl" className="form-label">
-                          Сcылка на картинку товара
-                        </label>
-                        {props.errors.imageUrl && props.touched.imageUrl ? (
-                          <span className="form-error">
-                            {props.errors.imageUrl}
-                          </span>
-                        ) : null}
-                        <Field
-                          name="imageUrl"
-                          id="imageUrl"
-                          className="form-control"
-                        />
-                      </div>
-                      <div
-                        className={`form-group form-group-textarea ${
-                          props.errors.imageUrl && props.touched.imageUrl
-                            ? "has-error"
-                            : ""
-                        }`}
-                      >
-                        <label htmlFor="imageUrl" className="form-label">
-                          Описание товара
-                        </label>
-                        {props.errors.description &&
-                        props.touched.description ? (
-                          <span className="form-error">
-                            {props.errors.description}
-                          </span>
-                        ) : null}
-                        <Field
-                          name="description"
-                          id="description"
-                          className="form-control"
-                          as="textarea"
-                          rows="6"
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="form-button"
-                        // disabled={isLoading}
-                      >
-                        Изменить
-                      </button>
-                    </Form>
-                  )}
-                </Formik>
-              </>
-            )}
+                  <div
+                    className={`form-group ${
+                      props.errors.price && props.touched.price
+                        ? "has-error"
+                        : ""
+                    }`}
+                  >
+                    <label htmlFor="price" className="form-label">
+                      Цена товара:
+                    </label>
+                    {props.errors.price && props.touched.price ? (
+                      <span className="form-error">{props.errors.price}</span>
+                    ) : null}
+                    <Field name="price" id="price" className="form-control" />
+                  </div>
+                  <div
+                    className={`form-group ${
+                      props.errors.imageUrl && props.touched.imageUrl
+                        ? "has-error"
+                        : ""
+                    }`}
+                  >
+                    <label htmlFor="imageUrl" className="form-label">
+                      Сcылка на картинку товара
+                    </label>
+                    {props.errors.imageUrl && props.touched.imageUrl ? (
+                      <span className="form-error">
+                        {props.errors.imageUrl}
+                      </span>
+                    ) : null}
+                    <Field
+                      name="imageUrl"
+                      id="imageUrl"
+                      className="form-control"
+                    />
+                  </div>
+                  <div
+                    className={`form-group form-group-textarea ${
+                      props.errors.imageUrl && props.touched.imageUrl
+                        ? "has-error"
+                        : ""
+                    }`}
+                  >
+                    <label htmlFor="imageUrl" className="form-label">
+                      Описание товара
+                    </label>
+                    {props.errors.description && props.touched.description ? (
+                      <span className="form-error">
+                        {props.errors.description}
+                      </span>
+                    ) : null}
+                    <Field
+                      name="description"
+                      id="description"
+                      className="form-control"
+                      as="textarea"
+                      rows="6"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="form-button"
+                    // disabled={isLoading}
+                  >
+                    Изменить
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </Card>
         </Row>
       </Space>
